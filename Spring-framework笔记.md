@@ -20,8 +20,32 @@
 2. @Bean
 3. 通过xml配置bean
 4. 实现FactoryBean方法
-5. @Import
+5. @Import 实现ImportSelector或ImportBeanDefinitionRegistrar  
+  *  ImportSelector方式注册的bean，在获取时beanName为全类名，如下：
+  ```
+  public class MyImportSelector implements ImportSelector {
+   @Override
+   public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+    return new String[]{"com.wqp.study.bean.Dream"};
+   }
+  }
+  获取方式：System.out.println(context.getBean("com.wqp.study.bean.Dream"));  
+  ```  
+  *  ImportSelector或ImportBeanDefinitionRegistrar方式如下：
+  ```
+  public class MyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
+
+   @Override
+   public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+    // 将dream注册到BeanDefinitionMap中去
+    registry.registerBeanDefinition("dream", new RootBeanDefinition(Dream.class));
+   }
+  }
+  获取方式：System.out.println(context.getBean("dream"));
+  ```  
+  **引入使用：@Import(value = MyImportBeanDefinitionRegistrar.class)**
 6. @Conditional
+
 
 ### BeanDefinition
 1. BeanDefinition bean定义 承载bean的属性：scope className lazy-init等
@@ -35,7 +59,9 @@
   * 1: byName方式，解析setter方法名  
   * 2: byType方式，解析setter方法参数类型  
   * 3：构造器贪婪模式：选择最多参数（bean）进行注入  
-  
+3. @Import，实现ImportSelector或ImportBeanDefinitionRegistrar ,这种方式也将对象交给spring容器进行管理
+
+
 
 
 
