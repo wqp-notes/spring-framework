@@ -43,8 +43,9 @@
   }
   获取方式：System.out.println(context.getBean("dream"));
   ```  
-  **引入使用：@Import(value = MyImportBeanDefinitionRegistrar.class)**
-6. @Conditional
+  **引入使用：@Import(value = MyImportBeanDefinitionRegistrar.class)**  
+  
+  6. @Conditional
 
 
 ### BeanDefinition
